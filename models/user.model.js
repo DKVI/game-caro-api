@@ -107,15 +107,17 @@ const User = {
     new Promise(async (resolve, reject) => {
       const q = `SELECT * FROM user where USERNAME = ?`
       const user = await query(q, [username])
-      if (!user) {
-        reject(new NotFoundError()
+      if (!user[0]) {
+        reject(new NotFoundError(
           `Khong the tim thay nguoi choi co username: ${username}`
-        )
+        )) 
       }
-      const { PASSWORD: password } = user[0]
-      const isUser = comparePassword(plaintextPassword, password)
-      if (!isUser) {reject(new UnauthenticatedError('Password incorrect!'))}
-      resolve(user)
+      else {
+        const password  = user[0]?.PASSWORD 
+        const isUser = comparePassword(plaintextPassword, password)
+        if (!isUser) {reject(new UnauthenticatedError('Password incorrect!'))}
+        resolve(user)
+      }
     }),
   changePassword: (id, user) =>
     new Promise(async (resolve, reject) => {
