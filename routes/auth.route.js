@@ -20,4 +20,4 @@ const apiLimiter = rateLimiter({
 router.route('/login').post(apiLimiter, loginController)
 router.route('/register').post(apiLimiter, registerController)
 router.route('/admin').post(loginControllerForAdmin)
-module.exports = router
+module.exports = router 

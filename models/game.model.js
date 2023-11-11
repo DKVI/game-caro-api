@@ -10,7 +10,7 @@ const Game = {
       const q = 'SELECT * FROM banchoi WHERE PLAYER_ID = ?'
       const games = await query(q, [userId])
       if (!games)
-        throw new NotFoundError('Khong tim duoc van dau')
+        reject(new NotFoundError('Khong tim duoc van dau'))
       resolve(games)
     }),
   getGameById: (gameId, userId) =>
@@ -18,7 +18,7 @@ const Game = {
       const q = `SELECT * FROM banchoi WHERE PLAYER_ID = ? AND ID = ?`
       const game = await query(q, [userId, gameId])
       if (!game)
-        throw new NotFoundError(`Khong the tim thay nguoi choi co id: ${id}`)
+        reject(new NotFoundError(`Khong the tim thay nguoi choi co id: ${id}`))
       resolve(game)
     }),
   createGame: (
@@ -56,7 +56,7 @@ const Game = {
         data,
         nextmove,
       ])
-      if (!result.affectedRows) throw new BadRequestError('Can not insert!')
+      if (!result.affectedRows) reject(new BadRequestError('Can not insert!'))
       resolve(result)
     }),
   updateGameById: (gameId, game, user) =>
@@ -73,7 +73,7 @@ const Game = {
         data,
         nextmove,
       ])
-      if (!result.affectedRows) throw new BadRequestError('Can not update!')
+      if (!result.affectedRows) reject(new BadRequestError('Can not update!'))
       resolve(result)
     }),
 }
