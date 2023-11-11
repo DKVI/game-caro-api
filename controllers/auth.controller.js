@@ -54,8 +54,8 @@ const loginControllerForAdmin = async (req, res) => {
     User: {
       id: user[0].ID,
       username: user[0].USERNAME,
-      token,
     },
+    token,
   })
 }
 
