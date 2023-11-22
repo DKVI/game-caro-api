@@ -35,7 +35,11 @@ app.use(
 );
 
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://caro-game-client.vercel.app/",
+  })
+);
 app.use(xss());
 
 app.use(express.json());
