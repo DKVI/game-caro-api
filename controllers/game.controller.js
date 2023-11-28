@@ -8,7 +8,8 @@ const getAllGames = async (req, res) => {
 };
 
 const getAllGamesByUserId = async (req, res) => {
-  const userId = req.query.user;
+  const userId = req.query.id;
+  console.log(userId);
   const games = await Game.getAllGames(userId);
   return res.status(StatusCodes.OK).json({ games });
 };

@@ -28,7 +28,7 @@ const User = {
   },
   getAllUsers: () =>
     new Promise(async (resolve, reject) => {
-      const q = "SELECT * FROM nguoichoi";
+      const q = "SELECT * FROM nguoichoi ORDER BY SCORE DESC";
       const users = await query(q);
       if (!users) {
         reject(new NotFoundError("Khong tim thay nguoi choi nao!"));
@@ -162,7 +162,6 @@ const User = {
         if (!isUser) {
           reject(new UnauthenticatedError("Password incorrect!"));
         }
-        console.log(user);
         resolve(user);
       }
     }),

@@ -16,7 +16,7 @@ const xss = require("xss-clean");
 const userRouter = require("./routes/user.route");
 const gameRouter = require("./routes/game.route");
 const authRouter = require("./routes/auth.route");
-
+const adminRouter = require("./routes/admin.route");
 //middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -37,7 +37,7 @@ app.use(
 app.use(helmet());
 app.use(
   cors({
-    origin: "https://caro-game-client.vercel.app",
+    origin: ["http://localhost:3000", "https://caro-game-client.vercel.app"],
   })
 );
 app.use(xss());
@@ -46,6 +46,7 @@ app.use(express.json());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/game", authenticate, gameRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/admin", adminRouter);
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
 

@@ -42,23 +42,31 @@ const loginController = async (req, res) => {
 
 const loginControllerForAdmin = async (req, res) => {
   const { username, password } = req.body;
-  if (!username || !password)
-    throw new BadRequestError("Please provide username and password!");
+  if (!username || !password) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ msg: "Please provide both username and password!" });
+  }
 
-  const user = await User.login(username, password);
-  if (!user[0].ADMIN)
-    throw new UnauthenticatedError("Nguoi dung khong phai admin!");
-
-  const token = User.createJWT(user[0].ID, user[0].username, user[0].ADMIN);
-  req.session.token = token;
-  res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
-  return res.status(StatusCodes.CREATED).json({
-    User: {
-      id: user[0].ID,
-      username: user[0].USERNAME,
-    },
-    token,
-  });
+  await User.login(username, password)
+    .then((response) => {
+      const user = response[0];
+      const token = User.createJWT(user.ID, user.username, user.ADMIN);
+      req.session.token = token;
+      res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
+      return res.status(StatusCodes.CREATED).send({
+        User: {
+          id: user.ID,
+          username: user.USERNAME,
+        },
+        token,
+      });
+    })
+    .catch((err) => {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ msg: "password or username is wrong!" });
+    });
 };
 
 const logoutController = (req, res) => {
