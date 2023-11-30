@@ -25,6 +25,7 @@ const authenticate = require("./middleware/authenticate");
 //cookie
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const { sendMail } = require("./mail");
 app.use(cookieParser());
 app.use(
   session({
@@ -37,7 +38,10 @@ app.use(
 app.use(helmet());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://caro-game-client.vercel.app"],
+    origin: [
+      "https://caro-game-admin-gamma.vercel.app",
+      "https://caro-game-client.vercel.app",
+    ],
   })
 );
 app.use(xss());
@@ -49,7 +53,6 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use(errorHandlerMiddleware);
 app.use(notFoundMiddleware);
-
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
