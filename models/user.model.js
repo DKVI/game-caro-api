@@ -187,6 +187,17 @@ const User = {
       }
     ));
   },
+  changeName: (id, { name }) =>
+    new Promise(async (resolve, reject) => {
+      const q = `
+      UPDATE user 
+      SET NAME = ?
+      WHERE ID = ? 
+      `;
+      const result = await query(q, [name, id]);
+      if (!result.affectedRows) reject(new BadRequestError("Khong the doi!"));
+      resolve(result);
+    }),
 };
 
 module.exports = User;

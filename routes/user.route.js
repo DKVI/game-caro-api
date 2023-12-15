@@ -12,11 +12,13 @@ const {
   getUserByToken,
 } = require("../controllers/user.controller");
 const authenticate = require("../middleware/authenticate");
+const {} = require("../controllers/user.controller")
 
 router.route("/").get(getAllUsers).post(createUser);
 router.route("/:id").get(getUserById).patch(updateUser).delete(deleteUser);
 router.route("/auth/getUser").get(authenticate, getUserByToken);
 router.route("/updateAll").put(updateAllScore);
 router.route("/updateInfo/:id").patch(updateInfo);
+router.route("/updateName/:id").patch();
 // router.route("/changePassword/:id").patch(changePassword);
 module.exports = router;

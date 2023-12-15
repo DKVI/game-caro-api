@@ -70,6 +70,18 @@ const Game = {
       if (!result.affectedRows) reject(new BadRequestError("Can not update!"));
       resolve(result);
     }),
+
+  deleteGameByIdUser: (idUser) => {
+    return new Promise(async (resolve, reject) => {
+      const q = "DELETE FROM game WHERE PLAYER_ID = ?;";
+      try {
+        const game = await query(q, [idUser]);
+        resolve(game);
+      } catch {
+        reject("err");
+      }
+    });
+  },
 };
 
 module.exports = Game;

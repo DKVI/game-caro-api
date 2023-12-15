@@ -1,5 +1,6 @@
 const Game = require("../models/game.model");
 const { StatusCodes } = require("http-status-codes");
+const User = require("../models/user.model");
 
 const getAllGames = async (req, res) => {
   const { userId } = req.user;
@@ -34,10 +35,20 @@ const updateGameById = async (req, res) => {
   return res.status(StatusCodes.OK).json({ record_updated: game.affectedRows });
 };
 
+const deleteGameByIdUser = async (req, res) => {
+  const { id } = req.params;
+  const game = await Game.deleteGameByIdUser(id);
+  console.log(game);
+    return res
+      .status(StatusCodes.OK)
+      .send({ record_updated: "delete successfully!" });
+};
+
 module.exports = {
   getAllGames,
   getAllGamesByUserId,
   getGameById,
   createGame,
   updateGameById,
+  deleteGameByIdUser,
 };

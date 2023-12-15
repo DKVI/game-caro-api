@@ -61,7 +61,12 @@ const updateAllScore = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ record_updated: response.affectedRows });
 };
-
+const changeName = async (req, res) => {
+  console.log(true);
+  const { id } = req.params;
+  const user = await User.changeName(id, req.body);
+  return res.status(StatusCodes.OK).json({ record_updated: user.affectedRows });
+};
 module.exports = {
   getAllUsers,
   getUserById,
@@ -72,4 +77,5 @@ module.exports = {
   changePassword,
   updateAllScore,
   getUserByToken,
+  changeName,
 };

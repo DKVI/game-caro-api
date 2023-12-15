@@ -25,7 +25,6 @@ const authenticate = require("./middleware/authenticate");
 //cookie
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const { sendMail } = require("./mail");
 app.use(cookieParser());
 app.use(
   session({
@@ -39,8 +38,8 @@ app.use(helmet());
 app.use(
   cors({
     origin: [
-      "https://caro-game-admin-gamma.vercel.app",
       "https://caro-game-client.vercel.app",
+      "https://caro-game-admin-gamma.vercel.app",
     ],
   })
 );
