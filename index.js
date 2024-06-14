@@ -38,6 +38,7 @@ app.use(helmet());
 app.use(
   cors({
     origin: [
+      "http://localhost:3000",
       "https://caro-game-client.vercel.app",
       "https://caro-game-admin-gamma.vercel.app",
     ],
