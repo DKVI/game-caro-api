@@ -28,16 +28,22 @@ const loginController = async (req, res) => {
 
   const user = await User.login(username, password);
 
-  const token = User.createJWT(user[0].ID, user[0].username, false);
-  req.session.token = token;
-  res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
-  return res.status(StatusCodes.CREATED).json({
-    User: {
-      id: user[0].ID,
-      username: user[0].USERNAME,
-    },
-    token,
-  });
+  if (user[0]) {
+    const token = User.createJWT(user[0].ID, user[0].username, false);
+    req.session.token = token;
+    res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
+    return res.status(StatusCodes.CREATED).json({
+      User: {
+        id: user[0].ID,
+        username: user[0].USERNAME,
+      },
+      token,
+    });
+  } else {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ msg: "password or username is wrong!" });
+  }
 };
 
 const loginControllerForAdmin = async (req, res) => {
