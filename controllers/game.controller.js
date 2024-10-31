@@ -10,7 +10,6 @@ const getAllGames = async (req, res) => {
 
 const getAllGamesByUserId = async (req, res) => {
   const userId = req.query.id;
-  console.log(userId);
   const games = await Game.getAllGames(userId);
   return res.status(StatusCodes.OK).json({ games });
 };
@@ -38,10 +37,9 @@ const updateGameById = async (req, res) => {
 const deleteGameByIdUser = async (req, res) => {
   const { id } = req.params;
   const game = await Game.deleteGameByIdUser(id);
-  console.log(game);
-    return res
-      .status(StatusCodes.OK)
-      .send({ record_updated: "delete successfully!" });
+  return res
+    .status(StatusCodes.OK)
+    .send({ record_updated: "delete successfully!" });
 };
 
 module.exports = {

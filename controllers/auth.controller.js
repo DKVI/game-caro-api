@@ -20,9 +20,7 @@ const registerController = async (req, res) => {
 };
 
 const loginController = async (req, res) => {
-  console.log(req);
   const { username, password } = req.body;
-  console.log(req.body);
   if (!username || !password)
     throw new BadRequestError("Please provide username and password!");
 
@@ -32,7 +30,7 @@ const loginController = async (req, res) => {
     const token = User.createJWT(user[0].ID, user[0].username, false);
     req.session.token = token;
     res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
-    return res.status(StatusCodes.CREATED).json({
+    return res.status(StatusCodes.OK).json({
       User: {
         id: user[0].ID,
         username: user[0].USERNAME,
@@ -76,7 +74,6 @@ const loginControllerForAdmin = async (req, res) => {
 };
 
 const logoutController = (req, res) => {
-  console.log(req.token);
   res.cookie("newtoken", null, {
     expires: new Date(Date.now()),
   });
