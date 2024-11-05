@@ -9,7 +9,6 @@ const authenticate = async (req, res, next) => {
     );
   }
   const token = auth.split(" ")[1];
-  console.log(token);
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const testAdmin = decoded.isAdmin;

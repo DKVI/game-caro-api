@@ -34,19 +34,33 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.deleteUser(id);
-  return res.status(StatusCodes.OK).json({ record_deleted: user.affectedRows });
+  return res.status(StatusCodes.OK).json({
+    msg: `Deleted user ${id} successfully!`,
+    record_deleted: user.affectedRows,
+  });
 };
 
 const updateInfo = async (req, res) => {
   const { userId } = req.user;
-  const user = await User.updateInfo(userId, req.body);
-  return res.status(StatusCodes.OK).json({ record_updated: user.affectedRows });
+  try {
+    const user = await User.updateInfo(userId, req.body);
+    return res.status(StatusCodes.OK).json({
+      msg: `Changed user's info successfully!`,
+      record_updated: user.affectedRows,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
+  }
 };
 
 const changePassword = async (req, res) => {
   const { userId } = req.user;
   const user = await User.changePassword(userId, req.body);
-  return res.status(StatusCodes.OK).json({ record_updated: user.affectedRows });
+  return res.status(StatusCodes.OK).json({
+    msg: `Changed password user successfully!`,
+    record_updated: user.affectedRows,
+  });
 };
 
 const updateAllScore = async (req, res) => {

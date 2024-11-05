@@ -110,12 +110,13 @@ const User = {
   // Da xac thuc
   updateInfo: (id, user) =>
     new Promise(async (resolve, reject) => {
+      console.log(id);
       const { name, email } = user;
       const q = `
       UPDATE user 
       SET NAME = ?,
           EMAIL = ?
-      WHERE ID = ? ;
+      WHERE ID = ?;
       `;
       const result = await query(q, [name, email, id]);
       if (!result.affectedRows) reject(new BadRequestError("Khong the xoa!"));

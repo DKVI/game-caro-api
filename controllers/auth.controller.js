@@ -9,13 +9,12 @@ const {
 const jwt = require("jsonwebtoken");
 const registerController = async (req, res) => {
   const user = await User.register({ ...req.body });
-  const token = User.createJWT(user[0].ID, user[0].USERNAME, false);
   return res.status(StatusCodes.CREATED).json({
     User: {
       id: user[0].ID,
       username: user[0].USERNAME,
     },
-    token,
+    msg: "registered successfully!",
   });
 };
 
@@ -58,7 +57,7 @@ const loginControllerForAdmin = async (req, res) => {
       const token = User.createJWT(user.ID, user.username, user.ADMIN);
       req.session.token = token;
       res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
-      return res.status(StatusCodes.CREATED).send({
+      return res.status(StatusCodes.OK).send({
         User: {
           id: user.ID,
           username: user.USERNAME,
